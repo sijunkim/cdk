@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import * as env from '../../utilities/env';
+import * as env from '../utilities/env';
 
 export class VPCStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
