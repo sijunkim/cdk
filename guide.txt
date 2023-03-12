@@ -1,0 +1,4 @@
+cdk init app --language=typescript
+
+cdk bootstrap aws://{aws accounts}/ap-northeast-2 --cloudformation-execution-policies "arn:aws:iam::aws:policy/AdministratorAccess"
+cdk bootstrap aws://{aws accounts}/ap-southeast-1 --cloudformation-execution-policies "arn:aws:iam::aws:policy/AdministratorAccess"
