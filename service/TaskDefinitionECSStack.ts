@@ -3,7 +3,7 @@ import { Construct } from 'constructs';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as ecr from 'aws-cdk-lib/aws-ecr';
-import * as env from '../../utilities/env';
+import * as env from '../utilities/env';
 
 export class TaskDefinitionECSStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {

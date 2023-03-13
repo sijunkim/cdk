@@ -1,7 +1,7 @@
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import * as env from '../../utilities/env';
+import * as env from '../utilities/env';
 
 export class IAMStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
