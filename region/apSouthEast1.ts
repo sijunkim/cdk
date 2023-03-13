@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
-import { ALBPublicSubnetStack } from '../lib/albPublicSubnetStack';
-import { NLBPrivateSubnetStack } from '../lib/nlbPrivateSubnetStack';
+import { ALBPublicSubnetStack } from '../stack/albPublicSubnetStack';
+import { NLBPrivateSubnetStack } from '../stack/nlbPrivateSubnetStack';
 
 export class APSouthEast1 {
   static albPublicSubnet(app: cdk.App, id: string, props: cdk.StackProps): void {
