@@ -8,7 +8,7 @@ const props: cdk.StackProps = { env: cdkEnvironment };
 const app = new cdk.App();
 
 regionModule.APSouthEast1.albPublicSubnet(app, 'ALBPublicSubnetStack', props);
-regionModule.APSouthEast1.nlbPrivateSubnet(app, 'NLBPrivateSubnetStack', props);
+// regionModule.APSouthEast1.nlbPrivateSubnet(app, 'NLBPrivateSubnetStack', props);
 
 // IAM Role
 // new apSouthEast1Module.IAMStack(app, 'IAMStack', props);
