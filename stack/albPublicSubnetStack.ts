@@ -26,29 +26,12 @@ export class ALBPublicSubnetStack extends cdk.Stack {
     const cluster = new ecs.Cluster(this, id, { vpc });
 
     // Task Definition
-    const taskDefinitionProps: ecs.TaskDefinitionProps = {
-      family: env.CDK_TASK_DEFINITION,
-      memoryMiB: '2048',
-      cpu: '1024',
-      compatibility: ecs.Compatibility.FARGATE,
-      taskRole: iam.Role.fromRoleArn(this, id, env.CDK_ECS_TASK_EXECUTION_ROLE_ARN),
-      executionRole: iam.Role.fromRoleArn(this, id, env.CDK_ECS_TASK_EXECUTION_ROLE_ARN),
-    };
-    // serviceModule.taskDefinition.getTaskDefinition(this, id, env.CDK_TASK_DEFINITION);
+    const taskRole = iam.Role.fromRoleArn(this, id, env.CDK_ECS_TASK_EXECUTION_ROLE_ARN);
+    const executionRole = iam.Role.fromRoleArn(this, id, env.CDK_ECS_TASK_EXECUTION_ROLE_ARN);
+    const taskDefinitionProps = serviceModule.ecs.getTaskDefinition(env.CDK_TASK_DEFINITION, taskRole, executionRole);
     const taskDefinition = new ecs.TaskDefinition(this, id, taskDefinitionProps);
-    const containerDefinition = taskDefinition.addContainer(env.CDK_CONTAINER, {
-      image: ecs.ContainerImage.fromRegistry('amazon/amazon-ecs-sample'),
-      cpu: 1,
-      memoryLimitMiB: 2048,
-      // secrets manager 연동
-      // secrets: {},
-      // OpenSearch 연동
-      // logging: ecs.LogDrivers.firelens({
-      //   options: {
-
-      //   }
-      // },
-    });
+    const containerDefinitionOptions = serviceModule.ecs.getContainerDefinition(repository);
+    const containerDefinition = taskDefinition.addContainer(env.CDK_CONTAINER, containerDefinitionOptions);
     containerDefinition.addPortMappings({
       containerPort: 8801,
       hostPort: 80,
@@ -56,19 +39,6 @@ export class ALBPublicSubnetStack extends cdk.Stack {
       protocol: ecs.Protocol.TCP,
       appProtocol: ecs.AppProtocol.http,
     });
-    // const containerDefinitionOptions: ecs.ContainerDefinitionOptions = {
-    //   image: ecs.ContainerImage.fromEcrRepository(repository),
-    //   cpu: 1,
-    //   memoryReservationMiB: 2048,
-
-    // };
-
-    // Secrets Manager
-    // arn:aws:secretsmanager:<region>:<aws_account_id>:secret:<secret_name>
-    // arn:aws:secretsmanager:ap-northeast-2:145767916253:secret:ADMIN_SECRETS-rSwZrk
-    // arn:aws:secretsmanager:ap-northeast-2:145767916253:secret:ADMIN_SECRETS-rSwZrk:ETHERSCAN_API_KEY::
-    // const secretCompleteArn = 'arn:aws:secretsmanager:ap-northeast-2:{aws accounts id}:secret:BATCH_SECRETS-6b9Bhb';
-    // const mySecretFromCompleteArn = ecs.Secret.fromSecretsManager(secretCompleteArn, 'SecretFromCompleteArn');
 
     // ECS
   }

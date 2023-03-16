@@ -1,4 +1,6 @@
-import * as vpcModule from './vpc/vpc';
-import * as ecrModule from './ecr/ecr';
+import * as vpc from './vpc/vpc';
+import * as ecr from './ecr/ecr';
+import * as ecs from './ecs/ecs';
+// import * as taskDefinition from './ecs/taskDefinition';
 
-export { vpcModule, ecrModule };
+export { vpc, ecr, ecs };
