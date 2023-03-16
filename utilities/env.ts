@@ -14,3 +14,4 @@ export const CDK_PRIVATE_SUBNET1 = <string>process.env.CDK_PRIVATE_SUBNET1;
 export const CDK_PRIVATE_SUBNET2 = <string>process.env.CDK_PRIVATE_SUBNET2;
 export const CDK_TASK_DEFINITION = <string>process.env.CDK_TASK_DEFINITION;
 export const CDK_CONTAINER = <string>process.env.CDK_CONTAINER;
+export const CDK_ECS_TASK_EXECUTION_ROLE_ARN = <string>process.env.CDK_ECS_TASK_EXECUTION_ROLE_ARN;
