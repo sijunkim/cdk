@@ -4,6 +4,7 @@
   "bin": {
     "cdk": "bin/cdk.js"
   },
+  "license": "UNLICENSED",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
