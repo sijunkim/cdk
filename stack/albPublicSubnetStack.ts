@@ -4,6 +4,7 @@ import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ecr from 'aws-cdk-lib/aws-ecr';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
+import * as iam from 'aws-cdk-lib/aws-iam';
 // import * as secretsManager from 'aws-cdk-lib/aws-secretsmanager';
 import * as serviceModule from '../service/serviceModule';
 
@@ -22,20 +23,25 @@ export class ALBPublicSubnetStack extends cdk.Stack {
     const repository = new ecr.Repository(this, env.CDK_REPOSITORY, repositoryProps);
 
     // CLUSTER
-    const cluster = new ecs.Cluster(this, env.CDK_CLUSTER, { vpc });
+    const clusterProps = serviceModule.ecs.getCluster(env.CDK_CLUSTER, vpc);
+    const cluster = new ecs.Cluster(this, env.CDK_CLUSTER, clusterProps);
+
+    // IAM
+    const taskRole = iam.Role.fromRoleArn(this, env.CDK_TASK_ROLE, env.CDK_ECS_TASK_EXECUTION_ROLE_ARN);
+    const executionRole = iam.Role.fromRoleArn(this, env.CDK_EXECUTION_ROLE, env.CDK_ECS_TASK_EXECUTION_ROLE_ARN);
 
     // Task Definition
-    // const taskDefinitionProps = serviceModule.ecs.getTaskDefinition(scope, id, env.CDK_TASK_DEFINITION);
-    // const taskDefinition = new ecs.TaskDefinition(this, id, taskDefinitionProps);
-    // const containerDefinitionOptions = serviceModule.ecs.getContainerDefinition(repository);
-    // const containerDefinition = taskDefinition.addContainer(env.CDK_CONTAINER, containerDefinitionOptions);
-    // containerDefinition.addPortMappings({
-    //   containerPort: 8801,
-    //   hostPort: 80,
-    //   name: env.CDK_CONTAINER,
-    //   protocol: ecs.Protocol.TCP,
-    //   appProtocol: ecs.AppProtocol.http,
-    // });
+    const taskDefinitionProps = serviceModule.ecs.getTaskDefinition(env.CDK_TASK_DEFINITION, taskRole, executionRole);
+    const taskDefinition = new ecs.TaskDefinition(this, env.CDK_TASK_DEFINITION, taskDefinitionProps);
+    const containerDefinitionOptions = serviceModule.ecs.getContainerDefinition(repository);
+    const containerDefinition = taskDefinition.addContainer(env.CDK_CONTAINER, containerDefinitionOptions);
+    containerDefinition.addPortMappings({
+      // hostPort: env.CDK_HOST_PORT,
+      containerPort: env.CDK_CONTAINER_PORT,
+      name: env.CDK_CONTAINER,
+      protocol: ecs.Protocol.TCP,
+      appProtocol: ecs.AppProtocol.http,
+    });
 
     // ECS
   }
