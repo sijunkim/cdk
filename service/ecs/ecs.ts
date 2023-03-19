@@ -3,12 +3,17 @@ import * as env from '../../utilities/env';
 import * as cdk from 'aws-cdk-lib';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as ecr from 'aws-cdk-lib/aws-ecr';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
 
-export function getTaskDefinition(scope: Construct, id: string, family: string): ecs.TaskDefinitionProps {
-  const taskRole = iam.Role.fromRoleArn(scope, id, env.CDK_ECS_TASK_EXECUTION_ROLE_ARN);
-  const executionRole = iam.Role.fromRoleArn(scope, id, env.CDK_ECS_TASK_EXECUTION_ROLE_ARN);
+export function getCluster(clusterName: string, vpc: ec2.Vpc): ecs.ClusterProps {
+  return {
+    clusterName,
+    vpc,
+  };
+}
 
+export function getTaskDefinition(family: string, taskRole: iam.IRole, executionRole: iam.IRole): ecs.TaskDefinitionProps {
   return {
     family,
     memoryMiB: '2048',
