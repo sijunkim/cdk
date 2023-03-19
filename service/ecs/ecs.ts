@@ -1,9 +1,14 @@
+import { Construct } from 'constructs';
+import * as env from '../../utilities/env';
 import * as cdk from 'aws-cdk-lib';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as ecr from 'aws-cdk-lib/aws-ecr';
 import * as iam from 'aws-cdk-lib/aws-iam';
 
-export function getTaskDefinition(family: string, taskRole: iam.IRole, executionRole: iam.IRole): ecs.TaskDefinitionProps {
+export function getTaskDefinition(scope: Construct, id: string, family: string): ecs.TaskDefinitionProps {
+  const taskRole = iam.Role.fromRoleArn(scope, id, env.CDK_ECS_TASK_EXECUTION_ROLE_ARN);
+  const executionRole = iam.Role.fromRoleArn(scope, id, env.CDK_ECS_TASK_EXECUTION_ROLE_ARN);
+
   return {
     family,
     memoryMiB: '2048',

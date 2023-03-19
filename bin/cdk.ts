@@ -9,18 +9,3 @@ const app = new cdk.App();
 
 regionModule.APSouthEast1.albPublicSubnet(app, 'ALBPublicSubnetStack', props);
 // regionModule.APSouthEast1.nlbPrivateSubnet(app, 'NLBPrivateSubnetStack', props);
-
-// IAM Role
-// new apSouthEast1Module.IAMStack(app, 'IAMStack', props);
-
-// ECR Stack
-// new apSouthEast1Module.ECRStack(app, 'ECRStack', props);
-
-// VPC Stack
-// new apSouthEast1Module.VPCStack(app, 'VPCStack', props);
-
-// Cluster Stack
-// new apSouthEast1Module.ClusterStack(app, env.CDK_CLUSTER, props);
-
-// Task-Definition Stack
-// new apSouthEast1Module.TaskDefinitionECSStack(app, 'TaskDefinitionECSStack', props);
